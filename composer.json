@@ -1,0 +1,43 @@
+{
+    "name": "dazeroit/theme",
+    "description": ":description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Maruca",
+            "email": "ivan.maruca@gmail.com",
+            "homepage": "https://github.com/dazeroit/Theme"
+        }
+    ],
+    "homepage": "https://github.com/dazeroit/theme",
+    "keywords": ["Laravel", "Theme"],
+    "require": {
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dazeroit\\Theme\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dazeroit\\Theme\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dazeroit\\Theme\\ThemeServiceProvider"
+            ],
+            "aliases": {
+                "Theme": "Dazeroit\\Theme\\Facades\\Theme"
+            }
+        }
+    }
+}
