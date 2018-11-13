@@ -3,7 +3,7 @@ Laravel Theme Manager
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status](https://travis-ci.com/dazeroit/Theme.svg?branch=master)](https://travis-ci.com/dazeroit/Theme)
+[![Build Status](https://travis-ci.org/dazeroit/laravel-theme.svg?branch=master)](https://travis-ci.org/dazeroit/laravel-theme)
 [![StyleCI](https://github.styleci.io/repos/157200020/shield?branch=master)](https://github.styleci.io/repos/157200020)
 
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
@@ -13,7 +13,7 @@ This is where your description should go. Take a look at [contributing.md](contr
 Via Composer
 
 ``` bash
-$ composer require dazeroit/theme
+$ composer require dazeroit/laravel-theme
 ```
 
 ## Usage
