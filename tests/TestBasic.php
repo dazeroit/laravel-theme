@@ -14,7 +14,7 @@ class TestBasic extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            Dazeroit\Theme\ThemeServiceProvider::class,
+            \Dazeroit\Theme\ThemeServiceProvider::class,
         ];
     }
 }
