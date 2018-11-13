@@ -4,7 +4,7 @@ Laravel Theme Manager
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status](https://travis-ci.org/dazeroit/laravel-theme.svg?branch=master)](https://travis-ci.org/dazeroit/laravel-theme)
-[![StyleCI](https://github.styleci.io/repos/157200020/shield?branch=master)](https://github.styleci.io/repos/157200020)
+[![StyleCI](https://github.styleci.io/repos/157362501/shield?branch=master)](https://github.styleci.io/repos/157362501)
 
 This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
 

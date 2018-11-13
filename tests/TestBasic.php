@@ -7,7 +7,7 @@ use Orchestra\Testbench\TestCase;
 class TestBasic extends TestCase
 {
 
-    public function basic(){
+    public function testBasic(){
         return $this->assertTrue(true);
     }
 
