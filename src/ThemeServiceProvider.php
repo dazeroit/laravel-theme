@@ -88,8 +88,18 @@ class ThemeServiceProvider extends ServiceProvider
         $this->bootBladeDirectives();
     }
     protected function bootBladeDirectives(){
+
         Blade::directive('content',function($expression){
-            return '<?php echo $'.\Dazeroit\Theme\Facades\Theme::current()->content_var.'; ?>' ;
+            return '<?php echo $'.ThemeFactory::CONTENT_VAR.'; ?>' ;
+        });
+
+        Blade::directive('partial',function($expression){
+            $exp = explode(',',$expression,2);
+            $exp[0] = "'".\Dazeroit\Theme\Facades\Theme::current()->getPartialNamespace(str_replace(["'",'"'],'',$exp[0]))."'";
+            $exp[1] = $exp[1] ?? null;
+            if(!$exp[1])unset($exp[1]);
+            $expression = implode(',',$exp);
+            return "<?php echo \$__env->make($expression, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>" ;
         });
     }
 }

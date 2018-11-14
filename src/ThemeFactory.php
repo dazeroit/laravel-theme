@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 
 abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
 {
-    public $content_var;
+    const CONTENT_VAR = "__CONTENT__";
 
     protected $theme;
     protected $fullPath;
@@ -24,7 +24,7 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
 
     protected function __construct(string $theme)
     {
-        $this->content_var = "___content___";
+        $this->content_var = "__CONTENT__";
 
         $this->theme = $theme;
         $this->fullPath = theme_path($theme);
@@ -52,7 +52,7 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
 
     public function view(string $view, array $data = [])
     {
-        $this->last_view_instance = View::make($this->viewPath($view),$data);
+        $this->last_view_instance = View::make($this->getViewNamespace($view),$data);
         $this->last_call = 'view' ;
         return $this ;
     }
@@ -84,7 +84,7 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
 
     public function layout(string $layout, array $data = [])
     {
-        $this->last_layout_instance = View::make($this->layoutPath($layout),$data);
+        $this->last_layout_instance = View::make($this->getLayoutNamespace($layout),$data);
         $this->last_call = 'layout' ;
         return $this ;
     }
@@ -92,7 +92,7 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
     public function render()
     {
         if($this->last_layout_instance !== null){
-            return $this->last_content = $this->last_layout_instance->with($this->content_var,$this->last_view_instance)->render();
+            return $this->last_content = $this->last_layout_instance->with(self::CONTENT_VAR,$this->last_view_instance)->render();
         }elseif ($this->last_view_instance !== null){
             return $this->last_content = $this->last_view_instance->render();
         }
@@ -116,12 +116,17 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
         return $factory ;
     }
 
-    protected function viewPath(string $view):string
+    public function getViewNamespace(string $view):string
     {
         return "{$this->namespace}::{$this->theme}.{$this->views['folder']}.$view";
     }
-    protected function layoutPath(string $layout):string
+    public function getLayoutNamespace(string $layout):string
     {
         return "{$this->namespace}::{$this->theme}.{$this->layouts['folder']}.$layout";
     }
+    public function getPartialNamespace(string $partial):string
+    {
+        return "{$this->namespace}::{$this->theme}.{$this->partials['folder']}.$partial";
+    }
+
 }
