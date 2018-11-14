@@ -22,14 +22,14 @@ interface Theme
      * @param string $theme
      * @return mixed
      */
-    public function uses(string $theme);
+    public function uses(string $theme):ThemeFactory;
 
     /**
      * Returns the current theme factory.
      * If the theme is not prepared, an exception will be thrown.
-     * @return Factory
+     * @return ThemeFactory
      */
-    public function current():Factory;
+    public function current():ThemeFactory;
 
     /**
      * Exchange the theme among all those prepared.
@@ -62,14 +62,6 @@ interface Theme
      * @return mixed
      */
     public function info(string $theme,string $property,$default = null);
-
-    /**
-     * Returns the encoded manifest theme json.
-     * NULL is returned if the json cannot be decoded or if the encoded data is deeper than the recursion limit.
-     * @param string $theme
-     * @return mixed
-     */
-    public function manifest(string $theme);
 
     /**
      * Removes a theme among those prepared.

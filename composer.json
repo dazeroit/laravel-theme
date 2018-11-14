@@ -6,10 +6,10 @@
         {
             "name": "Ivan Maruca",
             "email": "ivan.maruca@gmail.com",
-            "homepage": "https://github.com/dazeroit/Theme"
+            "homepage": "https://github.com/dazeroit/laravel-theme"
         }
     ],
-    "homepage": "https://github.com/dazeroit/theme",
+    "homepage": "https://github.com/dazeroit/laravel-theme",
     "keywords": ["Laravel", "Theme"],
     "require": {
         "php": ">=7.0.0",
@@ -24,7 +24,10 @@
     "autoload": {
         "psr-4": {
             "Dazeroit\\Theme\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

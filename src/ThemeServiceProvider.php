@@ -2,6 +2,7 @@
 
 namespace Dazeroit\Theme;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
@@ -13,14 +14,19 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(config('theme.dev-env')){
+            require_once __DIR__.'/Support/helpers.php';
+        }
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'dazeroit');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'dazeroit');
+        $this->loadViewsFrom(theme_path(), config('theme.namespace'));
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
+        }else{
+            $this->bootForRequest();
         }
     }
 
@@ -32,11 +38,10 @@ class ThemeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/theme.php', 'theme');
-
-        // Register the service the package provides.
         $this->app->singleton('theme', function ($app) {
             return new Theme;
         });
+
     }
 
     /**
@@ -78,5 +83,13 @@ class ThemeServiceProvider extends ServiceProvider
 
         // Registering package commands.
         // $this->commands([]);
+    }
+    protected function bootForRequest(){
+        $this->bootBladeDirectives();
+    }
+    protected function bootBladeDirectives(){
+        Blade::directive('content',function($expression){
+            return '<?php echo $'.\Dazeroit\Theme\Facades\Theme::current()->content_var.'; ?>' ;
+        });
     }
 }
