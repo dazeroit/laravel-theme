@@ -9,16 +9,26 @@ namespace Dazeroit\Theme\Contracts;
 interface Theme
 {
     /**
-     * Prepare a theme.
+     * Prepares a theme.
      * If the theme does not exist, an exception will be thrown.
-     * @param string $theme
+     *
+     * @param string|array $theme
      * @return mixed
      */
-    public function prepare(string $theme);
+    public function prepare($theme);
+
+    /**
+     * Prepares all themes in the path
+     * If one theme does not exist, an exception will be thrown.
+     *
+     * @return mixed
+     */
+    public function prepareAll();
 
     /**
      * Uses a theme.
      * If the theme does not exist, an exception will be thrown.
+     *
      * @param string $theme
      * @return mixed
      */
@@ -27,13 +37,22 @@ interface Theme
     /**
      * Returns the current theme factory.
      * If the theme is not prepared, an exception will be thrown.
+     *
      * @return ThemeFactory
      */
     public function current():ThemeFactory;
 
     /**
+     * Returns a prepared theme factory
+     *
+     * @param string $theme
+     * @return ThemeFactory
+     */
+    public function link(string $theme):ThemeFactory;
+    /**
      * Exchange the theme among all those prepared.
      * If the theme is not prepared, an exception will be thrown.
+     *
      * @param string $theme
      * @return mixed
      */
@@ -41,6 +60,7 @@ interface Theme
 
     /**
      * Checks if the theme directory exists.
+     *
      * @param string $theme
      * @return bool
      */
@@ -48,6 +68,7 @@ interface Theme
 
     /**
      * Check if the theme has been prepared.
+     *
      * @param string $theme
      * @return bool
      */
@@ -56,16 +77,17 @@ interface Theme
     /**
      * Returns a property of the manifest theme.
      * If the property is not set, the default value will be returned.
-     * @param string $theme
+     *
      * @param string $property
      * @param null $default
      * @return mixed
      */
-    public function info(string $theme,string $property,$default = null);
+    public function info(string $property,$default = null);
 
     /**
      * Removes a theme among those prepared.
      * If the theme is not prepared, an exception will be thrown.
+     *
      * @param string $theme
      * @return mixed
      */
@@ -73,6 +95,7 @@ interface Theme
 
     /**
      * Eliminates all the prepared themes.
+     *
      * @return mixed
      */
     public function reset();

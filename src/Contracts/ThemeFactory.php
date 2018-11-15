@@ -31,4 +31,10 @@ interface ThemeFactory
      */
     public function info(string $property,$default = null);
 
+    /**
+     * Returns the theme name of this factory
+     * @return string
+     */
+    public function getTheme():string;
+
 }

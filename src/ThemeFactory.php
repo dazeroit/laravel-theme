@@ -1,7 +1,10 @@
 <?php
+
 namespace Dazeroit\Theme;
+
 use Dazeroit\Theme\Contracts\ThemeFactory as ThemeFactoryContract;
 use Dazeroit\Theme\Contracts\ThemeViewable;
+use Dazeroit\Theme\Exceptions\ManifestNotFoundException;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 
@@ -16,6 +19,7 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
     protected $layouts;
     protected $partials;
     protected $manifest;
+    protected $shared = [];
 
     protected $last_view_instance ;
     protected $last_layout_instance ;
@@ -50,9 +54,24 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
         return $this->manifest()->{$property} ?? $default ;
     }
 
+    public function getTheme(): string
+    {
+       return $this->theme ;
+    }
+
     public function view(string $view, array $data = [])
     {
-        $this->last_view_instance = View::make($this->getViewNamespace($view),$data);
+        $this->last_view_instance = View::make($this->getViewNamespace($view),$data,$this->shared);
+        $this->last_call = 'view' ;
+        return $this ;
+    }
+
+    public function first(array $views, array $data = [])
+    {
+        foreach ($views as $i => $view){
+            $views[$i] = $this->getViewNamespace($view);
+        }
+        $this->last_view_instance = View::first($views,$data,$this->shared);
         $this->last_call = 'view' ;
         return $this ;
     }
@@ -84,9 +103,59 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
 
     public function layout(string $layout, array $data = [])
     {
-        $this->last_layout_instance = View::make($this->getLayoutNamespace($layout),$data);
+        $this->last_layout_instance = View::make($this->getLayoutNamespace($layout),$data,$this->shared);
         $this->last_call = 'layout' ;
         return $this ;
+    }
+
+    public function layoutFirst(array $layouts, array $data = [])
+    {
+        foreach ($layouts as $i => $layout){
+            $layouts[$i] = $this->getLayoutNamespace($layout);
+        }
+        $this->last_layout_instance = View::first($layouts,$data,$this->shared);
+        $this->last_call = 'layout' ;
+        return $this ;
+    }
+
+    public function partial(string $partial, array $data = [])
+    {
+        return View::make($this->getPartialNamespace($partial),$data,$this->shared);
+    }
+
+    public function partialFirst(array $partials, array $data = [])
+    {
+        foreach ($partials as $i => $partial){
+            $partials[$i] = $this->getPartialNamespace($partial);
+        }
+        return View::first($partials,$data,$this->shared);
+    }
+
+    public function composer($view, $callback)
+    {
+        View::composer($this->getViewNamespace($view),$callback);
+        return $this;
+    }
+
+    public function composerLayout($layout, $callback)
+    {
+        View::composer($this->getLayoutNamespace($layout),$callback);
+        return $this;
+    }
+
+    public function composerPartial($partial, $callback)
+    {
+        View::composer($this->getPartialNamespace($partial),$callback);
+        return $this;
+    }
+
+    public function share($key, $value = null)
+    {
+        $keys = is_array($key) ? $key : [$key => $value];
+        foreach ($keys as $key => $value) {
+            $this->shared[$key] = $value;
+        }
+        return $this;
     }
 
     public function render()
