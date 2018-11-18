@@ -149,6 +149,24 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
         return $this;
     }
 
+    public function creator($view, $callback)
+    {
+        View::creator($this->getViewNamespace($view),$callback);
+        return $this;
+    }
+
+    public function creatorLayout($layout, $callback)
+    {
+       View::creator($this->getLayoutNamespace($layout),$callback);
+       return $this;
+    }
+
+    public function creatorPartial($partial, $callback)
+    {
+        View::creator($this->getPartialNamespace($partial),$callback);
+        return $this;
+    }
+
     public function share($key, $value = null)
     {
         $keys = is_array($key) ? $key : [$key => $value];
@@ -156,6 +174,21 @@ abstract class ThemeFactory implements ThemeFactoryContract,ThemeViewable
             $this->shared[$key] = $value;
         }
         return $this;
+    }
+
+    public function viewExists($view): bool
+    {
+        return View::exists($this->getViewNamespace($view));
+    }
+
+    public function layoutExists($layout): bool
+    {
+        return View::exists($this->getLayoutNamespace($layout));
+    }
+
+    public function partialExists($partial): bool
+    {
+        return View::exists($this->getPartialNamespace($partial));
     }
 
     public function render()

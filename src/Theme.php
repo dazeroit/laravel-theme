@@ -6,6 +6,7 @@ use Dazeroit\Theme\Contracts\ThemeFactory as ThemeFactoryContract;
 use Dazeroit\Theme\Contracts\ThemeViewable;
 use Dazeroit\Theme\Exceptions\ThemeNotFoundException;
 use Dazeroit\Theme\Exceptions\ThemeNotReadyException;
+use Illuminate\Support\Facades\File;
 
 class Theme implements ThemeContract,ThemeViewable
 {
@@ -39,14 +40,12 @@ class Theme implements ThemeContract,ThemeViewable
 
     public function prepareAll()
     {
-        $to_prepare = [] ;
-        $list = scandir(theme_path());
-        foreach ($list as $dir){
-            if($dir != '.' && $dir != '..' && is_dir(theme_path($dir))){
-                $to_prepare[] = $dir ;
-            }
+        if(!file_exists(theme_path()))return;
+        $themes = [];
+        foreach (File::directories(theme_path()) as $theme){
+            $themes[] = basename($theme);
         }
-        return $this->prepare($to_prepare);
+        return $this->prepare($themes);
     }
 
     public function promise($theme){
@@ -172,6 +171,36 @@ class Theme implements ThemeContract,ThemeViewable
     public function composerPartial($partial, $callback)
     {
        return $this->current()->composerPartial($partial,$callback);
+    }
+
+    public function creator($view, $callback)
+    {
+        return $this->current()->creator($view,$callback);
+    }
+
+    public function creatorLayout($layout, $callback)
+    {
+        return $this->current()->creator($layout,$callback);
+    }
+
+    public function creatorPartial($partial, $callback)
+    {
+        return $this->current()->creator($partial,$callback);
+    }
+
+    public function viewExists($view): bool
+    {
+        return $this->current()->viewExists($view);
+    }
+
+    public function layoutExists($layout): bool
+    {
+        return $this->current()->layoutExists($layout);
+    }
+
+    public function partialExists($partial): bool
+    {
+        return $this->current()->partialExists($partial);
     }
 
     public function render()

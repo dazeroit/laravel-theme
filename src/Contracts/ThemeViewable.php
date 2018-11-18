@@ -14,6 +14,12 @@ interface ThemeViewable
     public function composer($view,$callback);
     public function composerLayout($layout,$callback);
     public function composerPartial($partial,$callback);
+    public function creator($view,$callback);
+    public function creatorLayout($layout,$callback);
+    public function creatorPartial($partial,$callback);
+    public function viewExists($view):bool;
+    public function layoutExists($layout):bool;
+    public function partialExists($partial):bool;
     public function render();
     public function share($key,$value = null);
     public function compileString(string $raw);

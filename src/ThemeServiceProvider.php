@@ -2,6 +2,12 @@
 
 namespace Dazeroit\Theme;
 
+use Dazeroit\Theme\Console\Commands\ThemeClone;
+use Dazeroit\Theme\Console\Commands\ThemeList;
+use Dazeroit\Theme\Console\Commands\ThemeNew;
+use Dazeroit\Theme\Console\Commands\ThemeNpm;
+use Dazeroit\Theme\Console\Commands\ThemePublish;
+use Dazeroit\Theme\Console\Commands\ThemeRemove;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -82,7 +88,14 @@ class ThemeServiceProvider extends ServiceProvider
         ], 'theme.views');*/
 
         // Registering package commands.
-        // $this->commands([]);
+        $this->commands([
+            ThemeNew::class,
+            ThemeNpm::class,
+            ThemeClone::class,
+            ThemeRemove::class,
+            ThemeList::class,
+            ThemePublish::class,
+        ]);
     }
     protected function bootForRequest(){
         $this->bootBladeDirectives();

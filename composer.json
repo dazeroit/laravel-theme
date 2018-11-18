@@ -1,6 +1,6 @@
 {
-    "name": "dazeroit/theme",
-    "description": ":description",
+    "name": "dazeroit/laravel-theme",
+    "description": ":Laravel Theme Management",
     "license": "MIT",
     "authors": [
         {
