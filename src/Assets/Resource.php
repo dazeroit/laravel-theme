@@ -85,6 +85,13 @@ class Resource
     }
 
     /**
+     * @return bool
+     */
+    public function hasDependencies():bool
+    {
+        return !empty($this->dependencies);
+    }
+    /**
      * @return array
      */
     public function getDependencies(): array
